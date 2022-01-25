@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: location
+      POSTGRES_USER: location
+      POSTGRES_PASSWORD: location
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  #app:
+  #  build:
+  #    context: .
+  #    target: production
+  #  ports:
+  #    - 3001:3001
+  #  command: npm run start:prod
+  #  depends_on:
+  #    - db
+
+volumes:
+  db_data:
