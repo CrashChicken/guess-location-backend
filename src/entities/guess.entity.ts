@@ -10,6 +10,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { User } from './user.entity';
+import { Location } from './location.entity';
 
 @Entity()
 export class Guess {
@@ -17,10 +18,10 @@ export class Guess {
   id: number;
 
   @Column()
-  guessedLocation: Geometry;
+  guessedLocation: number;
 
   @Column()
-  guessedLocationName: String;
+  guessedLocationName: string;
 
   @CreateDateColumn()
   createdAt: Date;

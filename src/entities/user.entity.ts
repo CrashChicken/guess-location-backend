@@ -7,23 +7,24 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Guess } from './guess.entity';
+import { Token } from './token.entity';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  email: String;
+  @Column({ unique: true })
+  email: string;
 
   @Column()
-  firstName: String;
+  firstName: string;
 
   @Column()
-  lastName: String;
+  lastName: string;
 
   @Column()
-  password: String;
+  password: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -33,4 +34,7 @@ export class User {
 
   @OneToMany(() => Guess, (guess) => guess.user)
   guesses: Guess[];
+
+  @OneToMany(() => Token, (token) => token.user)
+  tokens: Token[];
 }
