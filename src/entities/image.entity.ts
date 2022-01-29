@@ -14,7 +14,7 @@ export class Image {
   id: number;
 
   @Column()
-  storageURL: String;
+  storageURL: string;
 
   @CreateDateColumn()
   createdAt: Date;

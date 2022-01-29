@@ -15,10 +15,10 @@ export class Location {
   id: number;
 
   @Column()
-  location: Geometry;
+  location: number;
 
   @Column()
-  locationName: String;
+  locationName: string;
 
   @CreateDateColumn()
   createdAt: Date;
