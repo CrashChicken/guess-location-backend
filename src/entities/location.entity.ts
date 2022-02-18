@@ -3,29 +3,41 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Image } from './image.entity';
+import { User } from './user.entity';
+//import { Image } from './image.entity';
 
 @Entity()
 export class Location {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  location: number;
+  @Column({
+    type: 'geography',
+    spatialFeatureType: 'Point',
+    srid: 4326,
+  })
+  location: Geometry;
 
-  @Column()
-  locationName: string;
+  //@Column()
+  //locationName: string;
 
   @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn()
-  updatedAt: Date;
+  /*@UpdateDateColumn()
+  updatedAt: Date;*/
 
-  @OneToMany(() => Image, (image) => image.location)
-  images: Image[];
+  @Column({ nullable: true })
+  image: string;
+
+  //@OneToMany(() => Image, (image) => image.location)
+  //images: Image[];
+
+  @ManyToOne(() => User, (user) => user.locations)
+  user: User;
 }

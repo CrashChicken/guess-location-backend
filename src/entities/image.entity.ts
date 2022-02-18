@@ -1,4 +1,4 @@
-import {
+/*import {
   Column,
   CreateDateColumn,
   Entity,
@@ -25,3 +25,4 @@ export class Image {
   @ManyToOne(() => Location, (location) => location.images)
   location: Location;
 }
+*/

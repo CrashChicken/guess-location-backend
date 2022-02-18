@@ -17,11 +17,15 @@ export class Guess {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  guessedLocation: number;
+  @Column({
+    type: 'geography',
+    spatialFeatureType: 'Point',
+    srid: 4326,
+  })
+  guessedLocation: Geometry;
 
-  @Column()
-  guessedLocationName: string;
+  //@Column()
+  //guessedLocationName: string;
 
   @CreateDateColumn()
   createdAt: Date;

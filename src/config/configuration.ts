@@ -1,3 +1,5 @@
+import { env } from 'process';
+
 export default () => ({
   //port: parseInt(process.env.PORT, 10) || 3000,
   jwt: {
@@ -16,5 +18,11 @@ export default () => ({
     user: process.env.DATABASE_USERNAME || 'location',
     password: process.env.DATABASE_PASSWORD || 'location',
     database: process.env.DATABASE_DATABASE || 'location',
+  },
+  aws: {
+    accessKey: process.env.AWS_ACCESS_KEY,
+    secretKey: process.env.AWS_SECRET_KEY,
+    bucketRegion: process.env.AWS_BUCKET_REGION,
+    bucketName: process.env.AWS_BUCKET_NAME,
   },
 });

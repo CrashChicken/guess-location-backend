@@ -6,8 +6,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { LocationsModule } from './locations/locations.module';
-import TypeOrmConfigService from './config/TypeOrmConfigService';
+import TypeOrmConfigService from './config/postgres.config';
 import { AuthModule } from './auth/auth.module';
+import { S3Service } from './s3/s3.service';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, S3Service],
+  exports: [S3Service],
 })
 export class AppModule {}

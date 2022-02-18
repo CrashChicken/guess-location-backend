@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Guess } from './guess.entity';
 import { Token } from './token.entity';
+import { Location } from './location.entity';
 
 @Entity()
 export class User {
@@ -34,6 +35,9 @@ export class User {
 
   @OneToMany(() => Guess, (guess) => guess.user)
   guesses: Guess[];
+
+  @OneToMany(() => Location, (location) => location.user)
+  locations: Location[];
 
   @OneToMany(() => Token, (token) => token.user)
   tokens: Token[];
