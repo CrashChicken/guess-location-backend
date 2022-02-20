@@ -1,4 +1,4 @@
-import { Geometry } from 'geojson';
+import { Point } from 'geojson';
 import {
   Column,
   CreateDateColumn,
@@ -22,7 +22,7 @@ export class Guess {
     spatialFeatureType: 'Point',
     srid: 4326,
   })
-  guessedLocation: Geometry;
+  guessedLocation: Point;
 
   //@Column()
   //guessedLocationName: string;
@@ -30,8 +30,8 @@ export class Guess {
   @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn()
-  updatedAt: Date;
+  /*@UpdateDateColumn()
+  updatedAt: Date;*/
 
   @OneToOne(() => Location)
   @JoinColumn()

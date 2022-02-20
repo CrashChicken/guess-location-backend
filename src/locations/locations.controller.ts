@@ -34,8 +34,8 @@ export class LocationsController {
     summary: 'Get paginated location posts',
   })
   @Get()
-  getLocations(@Query() query: ListLocationQueryDto) {
-    return this.locationsService.getLocations(query.page, query.size);
+  findAll(@Query() query: ListLocationQueryDto) {
+    return this.locationsService.findAll(query.page, query.size);
   }
 
   @ApiOperation({
@@ -45,15 +45,6 @@ export class LocationsController {
   findOne(@Param() param: LocationParamDto) {
     return this.locationsService.findOne(param.id);
   }
-
-  // Users should delete the location and post a new one
-  /*@Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateLocationDto: UpdateLocationDto,
-  ) {
-    return this.locationsService.update(+id, updateLocationDto);
-  }*/
 
   @ApiOperation({
     summary: 'Delete location post',

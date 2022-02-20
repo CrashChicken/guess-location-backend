@@ -1,12 +1,11 @@
-import { Geometry } from 'geojson';
+import { Point } from 'geojson';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 import { User } from './user.entity';
 //import { Image } from './image.entity';
@@ -16,12 +15,13 @@ export class Location {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Index({ spatial: true })
   @Column({
     type: 'geography',
     spatialFeatureType: 'Point',
     srid: 4326,
   })
-  location: Geometry;
+  location: Point;
 
   //@Column()
   //locationName: string;

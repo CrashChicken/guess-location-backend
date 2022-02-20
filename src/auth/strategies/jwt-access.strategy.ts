@@ -4,8 +4,8 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TokenDto } from '../dto/token.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Token } from '../../entities/token.entity';
 import { Repository } from 'typeorm';
+import { User } from 'src/entities/user.entity';
 
 @Injectable()
 export class JwtAccessStrategy extends PassportStrategy(
@@ -13,7 +13,7 @@ export class JwtAccessStrategy extends PassportStrategy(
   'jwt-access',
 ) {
   constructor(
-    @InjectRepository(Token) private tokenRepository: Repository<Token>,
+    @InjectRepository(User) private userRepository: Repository<User>,
     private configService: ConfigService,
   ) {
     super({
@@ -23,12 +23,10 @@ export class JwtAccessStrategy extends PassportStrategy(
     });
   }
 
-  async validate(payload: TokenDto): Promise<Token> {
-    if (payload.uuid) {
+  async validate(payload: TokenDto): Promise<User> {
+    if (payload.sub) {
       try {
-        return await this.tokenRepository.findOneOrFail(payload.uuid, {
-          relations: ['user'],
-        });
+        return await this.userRepository.findOneOrFail(payload.sub);
       } catch (err) {
         throw new UnauthorizedException();
       }

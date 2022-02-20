@@ -31,8 +31,6 @@ export class AuthService {
     if (user) {
       try {
         if (await argon2.verify(user.password, password)) {
-          //const { password, ...result } = user;
-          //return result;
           return user;
         }
       } catch (err) {}
@@ -64,7 +62,7 @@ export class AuthService {
 
     const refresh_token = await this.getRefreshToken(user.id, tokenUUID.id);
 
-    const access_token = await this.getAccessToken(user.id, tokenUUID.id);
+    const access_token = await this.getAccessToken(user.id);
 
     return {
       refresh_token,
@@ -95,13 +93,13 @@ export class AuthService {
   }
 
   async refresh(token: Token) {
-    const access_token = await this.getAccessToken(token.user.id, token.id);
+    const access_token = await this.getAccessToken(token.user.id);
     return { access_token };
   }
 
-  getAccessToken(sub: number, uuid: string): Promise<string> {
+  getAccessToken(sub: number): Promise<string> {
     const token = this.jwtService.signAsync(
-      { sub, uuid },
+      { sub },
       {
         secret: this.configService.get<string>('jwt.access.secret'),
         expiresIn: this.configService.get<number>('jwt.access.expiresIn'),

@@ -63,7 +63,7 @@ export class AuthController {
   })
   @ApiOkResponse({ description: 'Logged out' })
   @ApiUnauthorizedResponse({ description: 'Invalid credentials' })
-  @UseGuards(JwtAccessAuthGuard)
+  @UseGuards(JwtRefreshAuthGuard)
   @HttpCode(200)
   @Get('logout')
   logout(@Request() req) {

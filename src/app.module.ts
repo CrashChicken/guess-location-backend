@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
@@ -9,6 +9,7 @@ import { LocationsModule } from './locations/locations.module';
 import TypeOrmConfigService from './config/postgres.config';
 import { AuthModule } from './auth/auth.module';
 import { S3Service } from './s3/s3.service';
+import { GuessesModule } from './guesses/guesses.module';
 
 @Module({
   imports: [
@@ -19,9 +20,10 @@ import { S3Service } from './s3/s3.service';
       imports: [ConfigModule],
       useClass: TypeOrmConfigService,
     }),
+    AuthModule,
     UsersModule,
     LocationsModule,
-    AuthModule,
+    GuessesModule,
   ],
   controllers: [AppController],
   providers: [AppService, S3Service],

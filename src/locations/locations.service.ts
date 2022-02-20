@@ -7,12 +7,11 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateLocationDto } from './dto/create-location.dto';
-import { UpdateLocationDto } from './dto/update-location.dto';
 import { Location } from '../entities/location.entity';
-import { Geometry } from 'geojson';
+import { Point } from 'geojson';
 import { ConfigService } from '@nestjs/config';
-import { Token } from '../entities/token.entity';
 import { S3Service } from '../s3/s3.service';
+import { User } from '../entities/user.entity';
 
 @Injectable()
 export class LocationsService {
@@ -23,13 +22,13 @@ export class LocationsService {
     private locationRepository: Repository<Location>,
   ) {}
 
-  async create(token: Token, createLocationDto: CreateLocationDto) {
+  async create(user: User, createLocationDto: CreateLocationDto) {
     const imageExtensions = ['png', 'jpg'];
 
     if (!imageExtensions.includes(createLocationDto.imageExtension))
       throw new BadRequestException();
 
-    const point: Geometry = {
+    const point: Point = {
       type: 'Point',
       coordinates: [
         createLocationDto.location.longitude,
@@ -39,7 +38,7 @@ export class LocationsService {
 
     const location = await this.locationRepository.save({
       location: point,
-      user: token.user,
+      user,
     });
 
     const postUrl = await this.s3Service.uploadFile(
@@ -55,7 +54,7 @@ export class LocationsService {
     return { location, postUrl };
   }
 
-  getLocations(page: number, size: number) {
+  findAll(page: number, size: number) {
     let skip = page * size;
     let take = skip + size;
 
@@ -76,17 +75,13 @@ export class LocationsService {
     }
   }
 
-  update(id: number, updateLocationDto: UpdateLocationDto) {
-    return `This action updates a #${id} location`;
-  }
-
-  async remove(token: Token, id: number) {
+  async remove(user: User, id: number) {
     try {
       const location = await this.locationRepository.findOneOrFail(id, {
         relations: ['user'],
       });
 
-      if (location.user.id === token.user.id) {
+      if (location.user.id === user.id) {
         await this.s3Service.deleteFile(id + '/original.png');
         return this.locationRepository.remove(location);
       }
